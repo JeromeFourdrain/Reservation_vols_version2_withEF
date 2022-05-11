@@ -12,7 +12,7 @@ namespace Reservation_vols_version2_withEF.Models
 
         public Flight(DateTime datedeparture, DateTime datearrival, int airportdepartureid, int airportarrivalid)
         {
-            this.AirportDepartureId = airportarrivalid;
+            this.AirportDepartureId = airportdepartureid;
             this.AirportArrivalId = airportarrivalid;
             this.DateDeparture = datedeparture;
             this.DateArrival = datearrival;

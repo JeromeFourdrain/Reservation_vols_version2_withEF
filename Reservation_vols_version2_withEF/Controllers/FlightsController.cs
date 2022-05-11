@@ -21,8 +21,9 @@ namespace Reservation_vols_version2_withEF.Controllers
         }
 
         // GET: Flights
-        public async Task<IActionResult> Index(string? DepartureAirport)
+        public async Task<IActionResult> Index(string? DepartureAirport, string? ArrivalAirport)
         {
+            //On préparer la requète, on va chercher uniquement les nom (select air.Name) pour les aéroports qui n'ont pas été supprimés (air.Isdeleted==false)
             var airports = from air in _context.Airports where air.Isdeleted==false select air.Name;
 
             IQueryable<Flight> reservation_volsContext = _context.Flights.Include(f => f.AirportArrival)
@@ -32,6 +33,12 @@ namespace Reservation_vols_version2_withEF.Controllers
             {
                 reservation_volsContext = reservation_volsContext.Where(x => (string)x.AirportDeparture.Name == DepartureAirport);
             }
+
+            if (!string.IsNullOrEmpty(ArrivalAirport))
+            {
+                reservation_volsContext = reservation_volsContext.Where(x => (string)x.AirportArrival.Name == ArrivalAirport);
+            }
+
 
             var filteredIndexFlightsVM = new FilteredIndexFlightsVM
             {
@@ -75,7 +82,7 @@ namespace Reservation_vols_version2_withEF.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Flightid,Isopen,DateDeparture,DateArrival,AirportDepartureId,AirportArrivalId")] CreatedFlightVM createdFlight)
+        public async Task<IActionResult> Create([Bind("DateDeparture,DateArrival,AirportDepartureId,AirportArrivalId")] CreatedFlightVM createdFlight)
         {
             Flight flight = new Flight(createdFlight.DateDeparture,createdFlight.DateArrival,createdFlight.AirportDepartureId, createdFlight.AirportArrivalId);
             flight.AirportArrival = await _context.Airports.FindAsync(createdFlight.AirportArrivalId);

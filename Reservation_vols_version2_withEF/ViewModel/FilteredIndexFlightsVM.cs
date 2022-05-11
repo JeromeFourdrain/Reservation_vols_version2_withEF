@@ -9,5 +9,8 @@ namespace Reservation_vols_version2_withEF.ViewModel
         public SelectList? Airports { get; set; }
 
         public string? DepartureAirport { get; set; }
+
+        public string? ArrivalAirport { get; set; }
+
     }
 }

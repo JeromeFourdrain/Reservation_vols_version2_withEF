@@ -12,16 +12,19 @@
 
 <form asp-controller="Flights" asp-action="Index" method="get">
     <p>
-
+        Aéroport de départ :
         <select asp-for="DepartureAirport" asp-items="Model.Airports">
             <option value="">All</option>
         </select>
-
-        <input type="submit" value="Filter" />
+        <span style="margin-left:10px;">Aéroport d'arrivée :</span>
+        <select asp-for="ArrivalAirport" asp-items="Model.Airports">
+            <option value="">All</option>
+        </select>
+        <input style="margin-left:10px;" type="submit" value="Filter" />
     </p>
 </form>
 
-<table class="table">
+<table class="table sortable">
     <thead>
         <tr>
             <th>
